@@ -103,8 +103,6 @@ def draw_grid(window, rows, width):
 
 
 def draw(window, grid, rows, width):
-    window.fill(WHITE)
-    # pygame.draw.lines(window, (0, 0, 0), False, [(100, 100), (150, 200), (200, 100)], 1)
     for row in grid:
         for node in row:
             node.draw(window)
@@ -148,19 +146,28 @@ def main(window, width):
                 node = grid[row][col]
 
                 # first click = start
-                if not start and not node.is_barrier():
+                if not start and not node.is_barrier() and not node.is_end():
                     start = node
                     start.make_start()
                 # second click = end
-                elif not end and not node.is_barrier():
+                elif not end and not node.is_barrier() and not node.is_start():
                     end = node
                     end.make_end()
                 # other click = barrier
-                elif node != end and node != start:
+                elif not node.is_end() and not node.is_start():
                     node.make_barrier()
 
             elif pygame.mouse.get_pressed()[2]:  #  click right mouse button
-                pass
+                pos = pygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, width)
+                node = grid[row][col]
+
+                if node.is_start():
+                    start = None
+                elif node.is_end():
+                    end = None
+
+                node.reset()
 
     pygame.quit()  # pylint: disable=E1101
 
