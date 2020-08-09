@@ -17,6 +17,8 @@ ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
 TURQUISE = (64, 224, 208)
 
+# MOVEMENTS = [(1, 0), (-1, 0), (0, 1), (0,-1)]
+
 
 class Node:
     def __init__(self, row, col, width, total_rows):
@@ -72,10 +74,76 @@ class Node:
         pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
-        pass
+        self.neighbors = []
+        # check bottom
+        if (
+            self.row < self.total_rows - 1
+            and not grid[self.row + 1][self.col].is_barrier()
+        ):
+            self.neighbors.append(grid[self.row + 1][self.col])
+        # check above
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
+            self.neighbors.append(grid[self.row - 1][self.col])
+        # check left
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
+            self.neighbors.append(grid[self.row][self.col - 1])
+        # check right
+        if (
+            self.col < self.total_rows - 1
+            and not grid[self.row][self.col + 1].is_barrier()
+        ):
+            self.neighbors.append(grid[self.row][self.col + 1])
 
     def __lt__(self, other):
         return False
+
+
+def A_star(draw, grid, start, end):
+    cnt = 1
+    open_queue = PriorityQueue()
+    open_queue.put((0, cnt, start))
+    came_from = dict()
+    g_score = {node: float("inf") for row in grid for node in row}
+    g_score[start] = 0
+    f_score = {node: float("inf") for row in grid for node in row}
+    f_score[start] = h(start, end)
+
+    open_set = {start}
+
+    while open_set:
+        for event in pygame.event.get():  # pylint: disable=E1101
+            if event.type == pygame.QUIT:  # pylint: disable=E1101
+                pygame.quit()  # pylint: disable=E1101
+
+        current = open_queue.get()[2]
+        open_set.remove(current)
+
+        if current == end:
+            return True
+
+        for neighbor in current.neighbors:
+            tmp_g_score = g_score[current] + 1
+
+            # update previous path and all weights if new g_score is better than previous
+            if tmp_g_score < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = tmp_g_score
+                f_score[neighbor] = tmp_g_score + h(neighbor, end)
+
+                # add neighbor if it is not in queue
+                # TODO: should consider else statement
+                if neighbor not in open_set:
+                    cnt += 1
+                    open_queue.put((f_score[neighbor], cnt, neighbor))
+                    open_set.add(neighbor)
+                    neighbor.make_open()
+
+        if current != start:
+            current.make_closed()
+
+        draw()
+
+    return False
 
 
 def h(p1, p2):
@@ -168,6 +236,17 @@ def main(window, width):
                     end = None
 
                 node.reset()
+
+            if event.type == pygame.KEYDOWN:  # pylint: disable=E1101
+                if (
+                    event.key == pygame.K_SPACE  # pylint: disable=E1101
+                    and not is_started
+                ):
+                    for row in grid:
+                        for node in row:
+                            node.update_neighbors(grid)
+                    A_star(lambda: draw(window, grid, ROWS, width), grid, start, end)
+                    is_started = True
 
     pygame.quit()  # pylint: disable=E1101
 

@@ -1,0 +1,9 @@
+1. instead of nested for loop for drawing lines, just used one for loop
+2. split one file to module [working in progress]
+3. Changed variable names that may confuse the data type
+    eg1) open_set -> open_queue
+    eg2) open_set_hash -> open_set
+4. A* search algorithm can be improved
+    - currently even if the better path is found in node in queue, it does not update
+      - MARKED with TODO
+    - cnt doesn't seem really affect algorithm (think it can be replaced by g_score)
