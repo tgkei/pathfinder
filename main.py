@@ -15,8 +15,10 @@ BLACK = (0, 0, 0)
 PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
-TURQUISE = (64, 224, 208)
+BROWN = (210, 105, 30)
 
+# TODO: change update_neighbors parts with following
+# Additionally consider if path can go to diagonal
 # MOVEMENTS = [(1, 0), (-1, 0), (0, 1), (0,-1)]
 
 
@@ -68,7 +70,7 @@ class Node:
         self.color = PURPLE
 
     def make_path(self):
-        self.color = TURQUISE
+        self.color = BROWN
 
     def draw(self, window):
         pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.width))
@@ -98,6 +100,15 @@ class Node:
         return False
 
 
+# TODO: split (util)
+def find_path(came_from, current, draw):
+    while current in came_from:
+        current = came_from[current]
+        current.make_path()
+        draw()
+
+
+# TODO: split Algorithm
 def A_star(draw, grid, start, end):
     cnt = 1
     open_queue = PriorityQueue()
@@ -119,6 +130,9 @@ def A_star(draw, grid, start, end):
         open_set.remove(current)
 
         if current == end:
+            find_path(came_from, end, draw)
+            end.make_end()
+            start.make_start()
             return True
 
         for neighbor in current.neighbors:
@@ -146,6 +160,7 @@ def A_star(draw, grid, start, end):
     return False
 
 
+# TODO: split (util) ####################################################################
 def h(p1, p2):
     x1, y1 = p1.get_pos()
     x2, y2 = p2.get_pos()
@@ -188,6 +203,9 @@ def get_clicked_pos(pos, rows, width):
     return row, col
 
 
+##################################################################################################
+
+
 def main(window, width):
     ROWS = 50
     grid = make_grid(ROWS, width)
@@ -196,7 +214,6 @@ def main(window, width):
     end = None
 
     is_running = True
-    is_started = False
 
     while is_running:
         draw(window, grid, ROWS, width)
@@ -204,9 +221,6 @@ def main(window, width):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # pylint: disable=E1101
                 is_running = False
-
-            if is_started:
-                continue
 
             if pygame.mouse.get_pressed()[0]:  # clicking left mouse button
                 pos = pygame.mouse.get_pos()
@@ -238,15 +252,11 @@ def main(window, width):
                 node.reset()
 
             if event.type == pygame.KEYDOWN:  # pylint: disable=E1101
-                if (
-                    event.key == pygame.K_SPACE  # pylint: disable=E1101
-                    and not is_started
-                ):
+                if event.key == pygame.K_SPACE:  # pylint: disable=E1101
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
                     A_star(lambda: draw(window, grid, ROWS, width), grid, start, end)
-                    is_started = True
 
     pygame.quit()  # pylint: disable=E1101
 
