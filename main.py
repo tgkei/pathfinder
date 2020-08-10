@@ -1,6 +1,7 @@
 import math
-from queue import PriorityQueue
 import pygame
+
+from algorithms import astar  # pylint: disable=E0401
 
 WIDTH = 800
 
@@ -100,73 +101,7 @@ class Node:
         return False
 
 
-# TODO: split (util)
-def find_path(came_from, current, draw):
-    while current in came_from:
-        current = came_from[current]
-        current.make_path()
-        draw()
-
-
-# TODO: split Algorithm
-def A_star(draw, grid, start, end):
-    cnt = 1
-    open_queue = PriorityQueue()
-    open_queue.put((0, cnt, start))
-    came_from = dict()
-    g_score = {node: float("inf") for row in grid for node in row}
-    g_score[start] = 0
-    f_score = {node: float("inf") for row in grid for node in row}
-    f_score[start] = h(start, end)
-
-    open_set = {start}
-
-    while open_set:
-        for event in pygame.event.get():  # pylint: disable=E1101
-            if event.type == pygame.QUIT:  # pylint: disable=E1101
-                pygame.quit()  # pylint: disable=E1101
-
-        current = open_queue.get()[2]
-        open_set.remove(current)
-
-        if current == end:
-            find_path(came_from, end, draw)
-            end.make_end()
-            start.make_start()
-            return True
-
-        for neighbor in current.neighbors:
-            tmp_g_score = g_score[current] + 1
-
-            # update previous path and all weights if new g_score is better than previous
-            if tmp_g_score < g_score[neighbor]:
-                came_from[neighbor] = current
-                g_score[neighbor] = tmp_g_score
-                f_score[neighbor] = tmp_g_score + h(neighbor, end)
-
-                # add neighbor if it is not in queue
-                # TODO: should consider else statement
-                if neighbor not in open_set:
-                    cnt += 1
-                    open_queue.put((f_score[neighbor], cnt, neighbor))
-                    open_set.add(neighbor)
-                    neighbor.make_open()
-
-        if current != start:
-            current.make_closed()
-
-        draw()
-
-    return False
-
-
 # TODO: split (util) ####################################################################
-def h(p1, p2):
-    x1, y1 = p1.get_pos()
-    x2, y2 = p2.get_pos()
-    return abs(x1 - x2) + abs(y1 - y2)
-
-
 def make_grid(rows, width):
     grid = []
     gap = width // rows
@@ -212,6 +147,8 @@ def main(window, width):
 
     start = None
     end = None
+    # TODO: implement found
+    found = False
 
     is_running = True
 
@@ -256,7 +193,10 @@ def main(window, width):
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
-                    A_star(lambda: draw(window, grid, ROWS, width), grid, start, end)
+                    algorithm = astar.A_star()
+                    found = algorithm.search(
+                        lambda: draw(window, grid, ROWS, width), grid, start, end
+                    )
 
     pygame.quit()  # pylint: disable=E1101
 

@@ -1,2 +1,6 @@
 # vim related file
 .vim
+
+# pycache
+
+**/__pycache__
