@@ -1,7 +1,7 @@
 import pygame
 
-# TODO: GREY should not be in node
-from node import Node, GREY
+from node import Node
+from color import GREY
 
 
 def make_grid(rows, width):
