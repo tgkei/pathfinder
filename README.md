@@ -1,6 +1,7 @@
 # pathfinder
 ## Description
-Simple GUI path finder with various algorithms *(Currently only A* search)*
+Simple GUI path finder with various algorithms *(Currently only A* search)
+
 Based on youtube tutorial (<a href="https://www.youtube.com/watch?v=JtiK0DOeI4A&t=236s" target="_blank">`A* Pathfinding Visualization Tutorial - Python A* Path Finding Tutorial`</a>.)
 
 ## Added Features
