@@ -4,8 +4,8 @@ import pygame
 from algorithms import astar  # pylint: disable=E0401
 import util
 
-WIDTH = 800
-
+WIDTH = 600
+ROWS = 30
 WINDOW = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Path simulator")
 
@@ -16,7 +16,6 @@ pygame.display.set_caption("Path simulator")
 
 
 def main(window, width):
-    ROWS = 50
     grid = util.make_grid(ROWS, width)
 
     start = None
