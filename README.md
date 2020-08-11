@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ## How to run
 Following command start the program
 ```
-python main.py
+python main.py [Algorithm]
 ```
 After the program has started
 -  First left mouse click: Start point

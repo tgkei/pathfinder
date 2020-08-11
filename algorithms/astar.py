@@ -4,8 +4,6 @@ import pygame
 
 
 class A_star(Abc_algo):
-    # TODO: split Algorithm
-    # should handle false case in main
     def search(self, draw, grid, start, end):
         cnt = 1
         open_queue = PriorityQueue()
