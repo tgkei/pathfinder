@@ -36,3 +36,4 @@ After the program has started
 -  After 2nd left mouse click: Barrier
 -  Right mouse click: Delete clicked block
 -  Space: Start searching path if there is start point and end point
+-  r : Reset the program

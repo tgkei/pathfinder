@@ -71,6 +71,11 @@ def main(window, width):
                         lambda: util.draw(window, grid, ROWS, width), grid, start, end
                     )
 
+                if event.key == pygame.K_r:  # pylint: disable=E1101
+                    start = None
+                    end = None
+                    grid = util.make_grid(ROWS, WIDTH)
+
     pygame.quit()  # pylint: disable=E1101
 
 
