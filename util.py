@@ -1,7 +1,7 @@
 import pygame
 
 from node import Node
-from color import GREY
+from color import GREY, BLACK
 
 
 def make_grid(rows, width):
@@ -39,3 +39,7 @@ def get_clicked_pos(pos, rows, width):
     col = x // gap
     return row, col
 
+
+def text_objects(text, font):
+    textSurface = font.render(text, True, BLACK)
+    return textSurface, textSurface.get_rect()

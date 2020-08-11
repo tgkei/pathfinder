@@ -7,6 +7,7 @@ Based on youtube tutorial (<a href="https://www.youtube.com/watch?v=JtiK0DOeI4A&
 ## Added Features
 -  [x] Split files
 -  [x] Remove unnecessary variables
+-  [x] No path found case is handled
 -  [ ] Add algorithms
    -  [ ] DFS (WIP)
    -  [ ] BFS

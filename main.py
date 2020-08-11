@@ -1,3 +1,4 @@
+import time
 import math
 import pygame
 
@@ -6,6 +7,10 @@ import util
 
 WIDTH = 600
 ROWS = 30
+NO_PATH_TEXT = "NO PATH FOUND"
+FONT_SIZE = 64
+
+pygame.init()  # pylint: disable=E1101
 WINDOW = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Path simulator")
 
@@ -29,7 +34,7 @@ def main(window, width):
         util.draw(window, grid, ROWS, width)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # pylint: disable=E1101
+            if event.type == pygame.QUIT:  # pylint: disable=e1101
                 is_running = False
 
             if pygame.mouse.get_pressed()[0]:  # clicking left mouse button
@@ -61,8 +66,8 @@ def main(window, width):
 
                 node.reset()
 
-            if event.type == pygame.KEYDOWN:  # pylint: disable=E1101
-                if event.key == pygame.K_SPACE:  # pylint: disable=E1101
+            if event.type == pygame.KEYDOWN:  # pylint: disable=e1101
+                if event.key == pygame.K_SPACE:  # pylint: disable=e1101
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
@@ -70,6 +75,15 @@ def main(window, width):
                     found = algorithm.search(
                         lambda: util.draw(window, grid, ROWS, width), grid, start, end
                     )
+                    if not found:
+                        largeText = pygame.font.Font("freesansbold.ttf", FONT_SIZE)
+                        TextSurf, TextRect = util.text_objects(NO_PATH_TEXT, largeText)
+                        TextRect.center = ((WIDTH // 2), (WIDTH // 2))
+                        WINDOW.blit(TextSurf, TextRect)
+
+                        pygame.display.update()
+
+                        time.sleep(2)
 
                 if event.key == pygame.K_r:  # pylint: disable=E1101
                     start = None
