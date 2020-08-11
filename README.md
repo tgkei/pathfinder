@@ -24,6 +24,13 @@ pip install -r requirements.txt
 *Other OS can use pygame version 1.9.\**
 
 ## How to run
+Following command start the program
 ```
 python main.py
 ```
+After the program has started
+-  First left mouse click: Start point
+-  Second left mouse click : End point
+-  After 2nd left mouse click: Barrier
+-  Right mouse click: Delete clicked block
+-  Space: Start searching path if there is start point and end point
