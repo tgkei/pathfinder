@@ -13,6 +13,8 @@ Based on youtube tutorial (<a href="https://www.youtube.com/watch?v=JtiK0DOeI4A&
    -  [ ] Bottom-up
 -  [ ] Improve A*search (WIP) 
 
+*More detail information about changed feature is in **changed** file*
+
 ## Example
 ![Recordit GIF](http://g.recordit.co/QRqe1iCnGT.gif)
 
