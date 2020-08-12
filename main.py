@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 import math
 import pygame
 
-from algorithms import astar, dfs  # pylint: disable=E0401
+from algorithms import astar, dfs, bfs  # pylint: disable=E0401
 import util
 
 WIDTH = 600
@@ -17,7 +17,7 @@ pygame.display.set_caption("Path simulator")
 
 
 # TODO: have to change to register decorator later shouldn't be here
-ALGORITH = {"astar": astar.A_star, "dfs": dfs.DFS}
+ALGORITH = {"astar": astar.A_star, "dfs": dfs.DFS, "bfs": bfs.BFS}
 
 
 # TODO: change update_neighbors parts with following
