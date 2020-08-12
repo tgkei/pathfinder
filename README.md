@@ -8,11 +8,11 @@ Based on youtube tutorial (<a href="https://www.youtube.com/watch?v=JtiK0DOeI4A&
 -  [x] Split files
 -  [x] Remove unnecessary variables
 -  [x] No path found case is handled
--  [ ] Add algorithms
-   -  [ ] DFS (WIP)
-   -  [ ] BFS
-   -  [ ] Bottom-up
+-  [X] Add algorithms
+   -  [X] DFS
+   -  [X] BFS
 -  [ ] Improve A*search (WIP) 
+-  [ ] Add button so algorithm can be selected in GUI
 
 *More detail information about changed feature is in **changed** file*
 
