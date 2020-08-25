@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+_registry = {}
+
 
 class Abc_algo(ABC):
     def __init__(self):
@@ -21,3 +23,13 @@ class Abc_algo(ABC):
     @abstractmethod
     def search(self, draw, grid, start, end):
         pass
+
+    @classmethod
+    def register(cls, name):
+        def register_algo_by_name(algo_class):
+            if name in _registry:
+                raise LookupError("algorithm already registered")
+            _registry[name] = algo_class
+            return algo_class
+
+        return register_algo_by_name
