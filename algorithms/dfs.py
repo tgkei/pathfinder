@@ -1,9 +1,10 @@
 from collections import deque
-from algorithms.abcalgo import Abc_algo  # pylint: disable=E0401
+from algorithms.algorithm import Algorithm  # pylint: disable=E0401
 import pygame
 
 
-class DFS(Abc_algo):
+@Algorithm.register("dfs")
+class DFS(Algorithm):
     def search(self, draw, grid, start, end):
         open_queue = deque()
         open_queue.append(start)

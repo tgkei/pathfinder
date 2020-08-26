@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 _registry = {}
 
 
-class Abc_algo(ABC):
+class Algorithm(ABC):
     def __init__(self):
         pass
 
@@ -33,3 +33,9 @@ class Abc_algo(ABC):
             return algo_class
 
         return register_algo_by_name
+
+    @classmethod
+    def get_algorithm(cls, name):
+        if name not in _registry:
+            raise LookupError(f"{name} is not registered")
+        return _registry[name]

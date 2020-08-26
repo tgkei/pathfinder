@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 import math
 import pygame
 
-from algorithms import astar, dfs, bfs  # pylint: disable=E0401
+from algorithms.algorithm import Algorithm  # pylint: disable=E0401
 import util
 
 WIDTH = 600
@@ -16,8 +16,8 @@ WINDOW = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Path simulator")
 
 
-# TODO: have to change to register decorator later shouldn't be here
-ALGORITH = {"astar": astar.A_star, "dfs": dfs.DFS, "bfs": bfs.BFS}
+# # TODO: have to change to register decorator later shouldn't be here
+# _ALGORITHM = {"astar": astar.A_star, "dfs": dfs.DFS, "bfs": bfs.BFS}
 
 
 # TODO: change update_neighbors parts with following
@@ -76,7 +76,7 @@ def main(window, width, algo):
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
-                    algorithm = algo()
+                    algorithm = algo
                     found = algorithm.search(
                         lambda: util.draw(window, grid, ROWS, width), grid, start, end
                     )
@@ -101,7 +101,8 @@ def main(window, width, algo):
 if __name__ == "__main__":
     parser = ArgumentParser(description="Path finding visualizer")
     parser.add_argument("--algorithm", "-algo", default="astar", help="which argument")
-
     args = parser.parse_args()
-    algo = ALGORITH[args.algorithm]
+    algorithm = args.algorithm
+
+    algo = Algorithm.get_algorithm(algorithm)()
     main(WINDOW, WIDTH, algo)
