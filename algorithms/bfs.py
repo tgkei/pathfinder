@@ -1,8 +1,9 @@
-from algorithms.abcalgo import Abc_algo  # pylint: disable=E0401
+from algorithms.algorithm import Algorithm  # pylint: disable=E0401
 import pygame
 
 
-class BFS(Abc_algo):
+@Algorithm.register("bfs")
+class BFS(Algorithm):
     def search(self, draw, grid, start, end):
         open_stack = []
         open_stack.append(start)

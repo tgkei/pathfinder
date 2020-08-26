@@ -1,3 +1,3 @@
-from . import astar
-from . import dfs
-from . import bfs
+from algorithms import astar
+from algorithms import dfs
+from algorithms import bfs
