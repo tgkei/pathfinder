@@ -13,6 +13,7 @@ Based on youtube tutorial (<a href="https://www.youtube.com/watch?v=JtiK0DOeI4A&
    -  [X] BFS
 -  [ ] Improve A*search (WIP) 
 -  [ ] Add button so algorithm can be selected in GUI
+-  [X] Using register decorator
 
 *More detail information about changed feature is in **changed** file*
 
